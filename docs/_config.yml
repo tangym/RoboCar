@@ -1,0 +1,9 @@
+title: 5G Cellular Remote Driving Robot and ROS
+# description: A short description of your site's purpose
+show_downloads: true
+
+remote_theme: pages-themes/slate
+plugins:
+- jekyll-remote-theme
+
+
