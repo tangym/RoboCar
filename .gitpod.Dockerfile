@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full as base
+FROM ubuntu:20.04 as base
 WORKDIR /workdir
 
 ARG arch=amd64
@@ -130,3 +130,8 @@ ENV ZEPHYR_TOOLCHAIN_VARIANT=zephyr
 ENV ZEPHYR_SDK_INSTALL_DIR=/workdir/zephyr-sdk
 ENV ZEPHYR_BASE=/workdir/project/zephyr
 ENV PATH="${ZEPHYR_BASE}/scripts:${PATH}"
+
+# Create the gitpod user. UID must be 33333.
+RUN useradd -l -u 33333 -G sudo -md /home/gitpod -s /bin/bash -p gitpod gitpod
+
+USER gitpod
