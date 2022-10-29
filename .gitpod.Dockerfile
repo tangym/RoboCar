@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 as base
+FROM gitpod/workspace-full as base
 WORKDIR /workdir
 
 ARG arch=amd64
