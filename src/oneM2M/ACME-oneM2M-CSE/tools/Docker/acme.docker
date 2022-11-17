@@ -118,3 +118,5 @@ batteryChargedLevel=100
 # Wait n seconds between updates of the node and sub-mgmtObjs in seconds. Default: 60
 interval=60
 
+[cse.registration]
+allowedAEOriginators=RoboCar
