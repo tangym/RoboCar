@@ -168,7 +168,7 @@ int main( void )
         case 'x':
            GPIO_CLR(&(io->gpio), 5);
            GPIO_SET(&(io->gpio), 6);
-           GPIO_CLR(&(io->gpio), 22);                   Almost similar to forward
+           GPIO_CLR(&(io->gpio), 22);                  // Almost similar to forward
            GPIO_SET(&(io->gpio), 23);
            printf( "Backward movement\n");
            for (int i=0;i<1000;i++){
