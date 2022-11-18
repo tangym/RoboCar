@@ -1,5 +1,5 @@
 debug = True
-cseBaseName = "acme-onem2m-cse-ix62mzt6pa-uc.a.run.app"
+cseBaseName = "acme-onem2m-cse-ix62mzt6pa-uc.a.run.app"    # <== Put your own ACME CSE server here
 use_https = True
 encoding = "ISO-8859-1"
 requestIdentifier = "RoboCarClient"
