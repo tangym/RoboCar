@@ -10,6 +10,7 @@ stopSignContainer = "stopSign"
 originator = "CAdmin" # "RoboCar" # "CAdmin" #
 releaseVersionIndicator = "3"
 aeBaseName = "/cse-in/CAdmin"
+logFile = "RoboCar.log" # "/home/pi/RoboCar.log"
 if debug:
     retrieveDelay = 1
 else:

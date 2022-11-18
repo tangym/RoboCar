@@ -13,9 +13,9 @@ from gpiozero.pins.pigpio import PiGPIOFactory
 import config
 
 if config.debug:
-    logging.basicConfig(filename='RoboCar.log', level=logging.DEBUG)
+    logging.basicConfig(filename=config.logFile, level=logging.DEBUG)
 else:
-    logging.basicConfig(filename='RoboCar.log', level=logging.INFO)
+    logging.basicConfig(filename=config.logFile, level=logging.INFO)
 
 class HTTPClient:
     def __init__(self, server, use_https=True):
@@ -161,6 +161,7 @@ class RoboCar:
 
         self.status = "ok"
         self.latest_control_message_id = None
+        self.get_controller()
 
     def send_heartbeat(self):
         logging.info(f"Sending heartbeat message: {self.status}")
@@ -232,4 +233,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
