@@ -213,4 +213,6 @@ dmypy.json
 cython_debug/
 
 ## Sensitive data
-src/config.py
+src/message_client/config.py
+src/ACME-oneM2M-CSE/docker-build.sh
+
