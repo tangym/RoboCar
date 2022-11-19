@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebUI</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/require.js/2.3.6/require.min.js"></script>
+</head>
+
+<body>
+  <h1>WebUI</h1>
+  <ul>
+    <button id="fTrigger">Forward</button>
+    <button id="bTrigger">BACK</button>
+    <button id="lTrigger">LEFT</button>
+    <button id="rTrigger">RIGHT</button>
+    <button id="sTrigger">STOP</button>
+
+    <script>
+        function send_control(msg) {
+            $.ajax({
+            url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/control',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;ty=4',
+                // 'Content-Length': data.length,
+                'Accept': 'application/json',
+                'X-M2M-Origin': 'CAdmin',
+                'X-M2M-RI': 'ghkgpiog67utuv',
+                'X-M2M-RVI': '3'
+            },
+            data: JSON.stringify({
+                "m2m:cin": {
+                "cnf": "text/plain:0",
+                "con": msg
+                }
+            }),
+            success: function (result) { console.log(result) },
+            error: function (error) { console.log(error) }
+            })
+        }
+        $('#fTrigger').on("click", function() {send_control('w')});
+        $('#bTrigger').on("click", function() {send_control('x')});
+        $('#lTrigger').on("click", function() {send_control('a')});
+        $('#rTrigger').on("click", function() {send_control('d')});
+        $('#sTrigger').on("click", function() {send_control('s')});
+    </script>
+
+</body>
+
+</html>
