@@ -7,12 +7,8 @@ dataDirectory=${baseDirectory}
 networkInterface=0.0.0.0
 cseHost=127.0.0.1
 httpPort=8080
-logLevel=debug
+logLevel=info
 databaseInMemory=True
-
-#
-#	General CSE settings
-#
 
 [cse]
 type=IN
@@ -46,16 +42,12 @@ listenIF=0.0.0.0
 enable=False
 
 
-#
-#	Database settings
-#
-
 [database]
 # Directory for the database files. Default: ./data
 path=./data
 # Operate the database in in-memory mode. Attention: No data is stored persistently.
 # See also command line argument --db-storage. Default: false
-inMemory=false
+inMemory=true
 # Cache size in bytes, or 0 to disable caching. Default: 0
 cacheSize=0
 # Reset the databases at startup. See also command line argument --db-reset
@@ -64,19 +56,16 @@ resetAtStartup=false
 
 
 
-#
-#	Logging settings
-#
 
 [logging]
 # Enable logging to file. Default: True
 enableFileLogging=false
 # Enable logging to the screen. Default: True
-enableScreenLogging=true
+enableScreenLogging=false
 # Basename of the log file. Default: ./logs/cse.log
 file=./logs/cse.log
 # Loglevel. Possible values: debug, info, warning, error, off. Default debug
-level=debug
+level=info
 # Number of files for log rotation. Default: 10
 count=10
 # Size per log file. Default: 100.000 bytes
