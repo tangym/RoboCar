@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WebUI</title>
   <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/require.js/2.3.6/require.min.js"></script>
 </head>
 
 <body>
@@ -47,6 +46,23 @@
         $('#rTrigger').on("click", function() {send_control('d')});
         $('#sTrigger').on("click", function() {send_control('s')});
 
+        function update_status() {
+            $.ajax({
+            url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/cnt2086484773924853402/la',
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // 'Content-Length': data.length,
+                'Accept': 'application/json',
+                'X-M2M-Origin': 'CAdmin',
+                'X-M2M-RI': 'ghkgpiog67utuv',
+                'X-M2M-RVI': '3'
+            },
+            success: function (result) { console.log(result) },
+            error: function (error) { console.log(error) }
+            })
+        }
+        var intervalId = setInterval(update_status, 1000);
     </script>
 
 </body>
