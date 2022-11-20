@@ -48,6 +48,20 @@
         $('#rTrigger').on("click", function() {send_control('d')});
         $('#sTrigger').on("click", function() {send_control('s')});
 
+        document.onkeypress = function(event) {
+            if (event.key === 'a') {
+                $('#lTrigger').click();
+            } else if (event.key === 's') {
+                $('#sTrigger').click();
+            } else if (event.key === 'd') {
+                $('#rTrigger').click();
+            } else if (event.key === 'w') {
+                $('#fTrigger').click();
+            } else if (event.key === 'x') {
+                $('#bTrigger').click();
+            }
+        };
+
         function update_status() {
             $.ajax({
             url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/trafficLight/la',
