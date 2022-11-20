@@ -2,135 +2,140 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RoboCar Controller WebUI</title>
-  <!-- Add icon library -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoboCar Controller WebUI</title>
+    <!-- Add icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
-  <h1>RoboCar Controller WebUI</h1>
-  <ul>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    
-    <button style="font-size:24px" id="fTrigger" class="btn" >Forward<i class="fa fa-arrow-up" style="font-size:24px; color:green"></i></button>
-    <br>  <br>
-    <button style="font-size:24px" id="lTrigger">LEFT  <i class="fa fa-arrow-left" style="font-size:24px; color:green"></i></button>
-    <button style="font-size:24px" id="rTrigger">RIGH  <i class="fa fa-arrow-right" style="font-size:24px; color:green"></i></button> 
-    <br>  <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button style="font-size:24px" id="bTrigger">BACK  <i class="fa fa-arrow-down" style="font-size:24px; color:green"></i></button>
-    <br>  <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button style="font-size:24px" id="sTrigger">STOP  <i class="fa fa-stop-circle"  style= "font-size:24px; color:red"></i></button>
-    <br>  <br>
+    <h1>RoboCar Controller WebUI</h1>
+    <ul>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-    <div class="trafficLight">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Stop-sign.jpg"
-            style="width:128px;height:128px;vertical-align:middle;">
-        <span id="trafficLight-span" style="font-size: 50px; color: aliceblue; text-align: center;">True</span>
-    </div>
-    <br> <br>
+        <button style="font-size:24px" id="fTrigger" class="btn">Forward<i class="fa fa-arrow-up"
+                style="font-size:24px; color:green"></i></button>
+        <br> <br>
+        <button style="font-size:24px" id="lTrigger">LEFT <i class="fa fa-arrow-left"
+                style="font-size:24px; color:green"></i></button>
+        <button style="font-size:24px" id="rTrigger">RIGH <i class="fa fa-arrow-right"
+                style="font-size:24px; color:green"></i></button>
+        <br> <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button style="font-size:24px" id="bTrigger">BACK <i class="fa fa-arrow-down"
+                style="font-size:24px; color:green"></i></button>
+        <br> <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button style="font-size:24px" id="sTrigger">STOP <i class="fa fa-stop-circle"
+                style="font-size:24px; color:red"></i></button>
+        <br> <br>
 
-    <div class="stopSign">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Traffic_Light_-_Realistic.jpg"
-            style="width:128px;height:200px;vertical-align:middle">
-        <span id="stopSign-span" style="font-size: 50px; color: aliceblue; text-align: center;">False</span>
-    </div>
+        <div class="trafficLight">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Traffic_Light_-_Realistic.jpg"
+                style="width:128px;height:200px;vertical-align:middle">
+            <span id="trafficLight-span" style="font-size: 50px; color: aliceblue; text-align: center;"></span>
+        </div>
+        <br> <br>
 
-    <script>
-        function send_control(msg) {
-            $.ajax({
-            url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/control',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;ty=4',
-                // 'Content-Length': data.length,
-                'Accept': 'application/json',
-                'X-M2M-Origin': 'CAdmin',
-                'X-M2M-RI': 'ghkgpiog67utuv',
-                'X-M2M-RVI': '3'
-            },
-            data: JSON.stringify({
-                "m2m:cin": {
-                "cnf": "text/plain:0",
-                "con": msg
-                }
-            }),
-            success: function (result) { console.log(result) },
-            error: function (error) { console.log(error) }
-            })
-        }
-        $('#fTrigger').on("click", function() {send_control('w')});
-        $('#bTrigger').on("click", function() {send_control('x')});
-        $('#lTrigger').on("click", function() {send_control('a')});
-        $('#rTrigger').on("click", function() {send_control('d')});
-        $('#sTrigger').on("click", function() {send_control('s')});
+        <div class="stopSign">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Stop-sign.jpg"
+                style="width:128px;height:128px;vertical-align:middle;">
+            <span id="stopSign-span" style="font-size: 50px; color: aliceblue; text-align: center;"></span>
+        </div>
 
-        document.onkeypress = function(event) {
-            if (event.key === 'a') {
-                $('#lTrigger').click();
-            } else if (event.key === 's') {
-                $('#sTrigger').click();
-            } else if (event.key === 'd') {
-                $('#rTrigger').click();
-            } else if (event.key === 'w') {
-                $('#fTrigger').click();
-            } else if (event.key === 'x') {
-                $('#bTrigger').click();
+        <script>
+            function send_control(msg) {
+                $.ajax({
+                    url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/control',
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;ty=4',
+                        // 'Content-Length': data.length,
+                        'Accept': 'application/json',
+                        'X-M2M-Origin': 'CAdmin',
+                        'X-M2M-RI': 'ghkgpiog67utuv',
+                        'X-M2M-RVI': '3'
+                    },
+                    data: JSON.stringify({
+                        "m2m:cin": {
+                            "cnf": "text/plain:0",
+                            "con": msg
+                        }
+                    }),
+                    success: function (result) { console.log(result) },
+                    error: function (error) { console.log(error) }
+                })
             }
-        };
+            $('#fTrigger').on("click", function () { send_control('w') });
+            $('#bTrigger').on("click", function () { send_control('x') });
+            $('#lTrigger').on("click", function () { send_control('a') });
+            $('#rTrigger').on("click", function () { send_control('d') });
+            $('#sTrigger').on("click", function () { send_control('s') });
 
-        function update_status() {
-            $.ajax({
-            url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/trafficLight/la',
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Content-Length': data.length,
-                'Accept': 'application/json',
-                'X-M2M-Origin': 'CAdmin',
-                'X-M2M-RI': 'ghkgpiog67utuv',
-                'X-M2M-RVI': '3'
-            },
-            success: function (result) { 
-                if (result['m2m:cin']['con'] == "true") {
-                    $('.trafficLight').css({'background-color': 'red'});
-                    $('#trafficLight-span').text('Detected');
-                } else {
-                    $('.trafficLight').css({'background-color': 'green'});
-                    $('#trafficLight-span').text('Not Detected');
+            document.onkeypress = function (event) {
+                if (event.key === 'a') {
+                    $('#lTrigger').click();
+                } else if (event.key === 's') {
+                    $('#sTrigger').click();
+                } else if (event.key === 'd') {
+                    $('#rTrigger').click();
+                } else if (event.key === 'w') {
+                    $('#fTrigger').click();
+                } else if (event.key === 'x') {
+                    $('#bTrigger').click();
                 }
-            },
-            error: function (error) { console.log(error) }
-            })
-            $.ajax({
-            url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/stopSign/la',
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Content-Length': data.length,
-                'Accept': 'application/json',
-                'X-M2M-Origin': 'CAdmin',
-                'X-M2M-RI': 'ghkgpiog67utuv',
-                'X-M2M-RVI': '3'
-            },
-            success: function (result) {
-                if (result['m2m:cin']['con'] == "true") {
-                    $('.stopSign').css({'background-color': 'red'});
-                    $('#stopSign-span').text('Detected');
-                } else {
-                    $('.stopSign').css({'background-color': 'green'});
-                    $('#stopSign-span').text('Not Detected');
-                }
-            },
-            error: function (error) { console.log(error) }
-            })
-        }
-        var intervalId = setInterval(update_status, 1000);
-    </script>
+            };
+
+            function update_status() {
+                $.ajax({
+                    url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/trafficLight/la',
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'Content-Length': data.length,
+                        'Accept': 'application/json',
+                        'X-M2M-Origin': 'CAdmin',
+                        'X-M2M-RI': 'ghkgpiog67utuv',
+                        'X-M2M-RVI': '3'
+                    },
+                    success: function (result) {
+                        if (result['m2m:cin']['con'] == "true") {
+                            $('.trafficLight').css({ 'background-color': 'red' });
+                            $('#trafficLight-span').text('Detected');
+                        } else {
+                            $('.trafficLight').css({ 'background-color': 'green' });
+                            $('#trafficLight-span').text('Not Detected');
+                        }
+                    },
+                    error: function (error) { console.log(error) }
+                })
+                $.ajax({
+                    url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/stopSign/la',
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'Content-Length': data.length,
+                        'Accept': 'application/json',
+                        'X-M2M-Origin': 'CAdmin',
+                        'X-M2M-RI': 'ghkgpiog67utuv',
+                        'X-M2M-RVI': '3'
+                    },
+                    success: function (result) {
+                        if (result['m2m:cin']['con'] == "true") {
+                            $('.stopSign').css({ 'background-color': 'red' });
+                            $('#stopSign-span').text('Detected');
+                        } else {
+                            $('.stopSign').css({ 'background-color': 'green' });
+                            $('#stopSign-span').text('Not Detected');
+                        }
+                    },
+                    error: function (error) { console.log(error) }
+                })
+            }
+            var intervalId = setInterval(update_status, 1000);
+        </script>
 
 </body>
 
