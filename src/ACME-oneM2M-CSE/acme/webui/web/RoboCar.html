@@ -16,6 +16,8 @@
     <button id="lTrigger">LEFT</button>
     <button id="rTrigger">RIGHT</button>
     <button id="sTrigger">STOP</button>
+    <div id="trafficLight"></div>
+    <div id="stopSign"></div>
 
     <script>
         function send_control(msg) {
@@ -58,7 +60,21 @@
                 'X-M2M-RI': 'ghkgpiog67utuv',
                 'X-M2M-RVI': '3'
             },
-            success: function (result) { console.log(result) },
+            success: function (result) { $('#trafficLight').text(result['m2m:cin']['con']) },
+            error: function (error) { console.log(error) }
+            })
+            $.ajax({
+            url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/stopSign/la',
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // 'Content-Length': data.length,
+                'Accept': 'application/json',
+                'X-M2M-Origin': 'CAdmin',
+                'X-M2M-RI': 'ghkgpiog67utuv',
+                'X-M2M-RVI': '3'
+            },
+            success: function (result) { $('#stopSign').text(result['m2m:cin']['con']) },
             error: function (error) { console.log(error) }
             })
         }
