@@ -7,8 +7,9 @@ import json
 import logging
 import socket
 
-from gpiozero import LED, PWMLED, LineSensor
+from gpiozero import LED, PWMLED, Button
 from gpiozero.pins.pigpio import PiGPIOFactory
+
 
 import config
 
@@ -211,28 +212,22 @@ def main():
             logging.info(f"RoboCar is able to reach the CSE server: {config.cseBaseName}")
 
     factory = PiGPIOFactory(host="localhost")
-    led = LED(config.ledPin)
-    # traffic_light = LineSensor(config.trafficLightPin)
-    # stop_sign = LineSensor(config.stopSignPin)
-    # traffic_light.when_line = lambda: logging.info("traffic light not detected")  # car.send_traffic_light("false")
-    # traffic_light.when_no_line = lambda: logging.info("traffic light detected")  # car.send_traffic_light("true")
-    # stop_sign.when_line = lambda: logging.info("stop sign not detected")  # car.send_stop_sign("false")
-    # stop_sign.when_no_line = lambda: logging.info("stop sign detected")  # car.send_stop_sign("true")
 
     car = RoboCar()
+    traffic_light = Button(config.trafficLightPin)
+    stop_sign = Button(config.stopSignPin)
     while True:
         car.send_heartbeat()
         controller = car.get_controller()
         if controller:
-            led.on()
-            time.sleep(config.retrieveDelay)
-            led.off()
             print(controller)
             if controller == "q":
                 car.status = "shutdown"
                 car.send_heartbeat()
                 break
         sys.stdout.flush()
+        car.send_traffic_light(str(not traffic_light.is_pressed))
+        car.send_stop_sign(str(not stop_sign.is_pressed))
         time.sleep(config.retrieveDelay)
 
 if __name__ == "__main__":

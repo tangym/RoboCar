@@ -17,4 +17,3 @@ else:
     retrieveDelay = 0.1
 trafficLightPin = 10
 stopSignPin = 11
-ledPin = 4
