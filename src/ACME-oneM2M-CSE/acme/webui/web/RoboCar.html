@@ -101,7 +101,7 @@
                         'X-M2M-RVI': '3'
                     },
                     success: function (result) {
-                        if (result['m2m:cin']['con'] == "true") {
+                        if (result['m2m:cin']['con'] === "true") {
                             $('.trafficLight').css({ 'background-color': 'red' });
                             $('#trafficLight-span').text('Detected');
                         } else {
@@ -123,7 +123,7 @@
                         'X-M2M-RVI': '3'
                     },
                     success: function (result) {
-                        if (result['m2m:cin']['con'] == "true") {
+                        if (result['m2m:cin']['con'] === "true") {
                             $('.stopSign').css({ 'background-color': 'red' });
                             $('#stopSign-span').text('Detected');
                         } else {
