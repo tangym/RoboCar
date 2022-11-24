@@ -52,10 +52,46 @@ In order to control RoboCar, a laptop is used for accessing the controller web p
 ### Motor Wheel Control
 We have implemented a local control module on Raspberry Pi 4, which allows a user to log in through the local network and input control commands. 
 
-We also implemented live video streaming via AWS cloud. For the network communication module, we used a Thingy:91 to connect to IoT mobile networks and transmit command messages. We will migrate the communication module to Raspberry Pi 4 mounted with a 5G antenna.
-
 The local controller is running on the Raspberry Pi 4 controlling the motor car. We can input commands to the program through keyboard. 
 The car can be controlled using `A-D-W-X-S` commands, which stands for turn left, turn right, move forward, move backward and stop. `i` and `j` are used to increase and decrease the speed. 
+
+To implement the driver controls of the project which takes the input from the user and performs the specific function on the robot car which can be either or from the listed commands(w,x,a,d,i,j). The given operation is performed for a time period which is 2 secs. The user has an additional functionality of changing the speed which can be controlled by I and j (for speed up and down respectively). The given program is implemented on the hardware with the help of motor driver board and a Raspberry Pi. The Raspberry Pi is connected to a breadboard with the help of T board which in turn gives us the opportunity of different GPIO pins. The given GPIO pins is connected to the motor driver board which acts as an interface between the motors and the control circuits. Motor requires a high amount of current whereas the controller circuit works on low current signals. So, the function of motor drivers is to take a low-current control signal and then turn it into a higher-current signal that can drive a motor. everything can be seen attached to the file at the end.
+
+The code to control the car has been written in C as it provides better functionality and control when we try to deal things which involves hardware. Overall, other than including all the libraries and assigning the pin function to input and output, the program used basic switch case for different commands which in turn use set clear to assign 0 and 1 to the assigned GPIO which in turn convert the motor to on and off depending on the case. At the end I turned all the GPIO pins to input which helps to clear the pins and helps the program to wait for the next input. The code also used get char which helps to take input from the keyboard and convert the signal from keyboard to the car.
+
+RPi4 signals to the motor driver board:
+- GPIO pins 12, 13, 05, 06, 22, 23, 3.3V VCC, 5.0V VM, and GND:
+	- RPi4 pin GPIO12 <-> Motor Driver Board pin PWMA = left motor speed control
+	- RPi4 pin GPIO13 <-> Motor Driver Board pin PWMB = right motor speed control
+	- RPi4 pin GPIO05 <-> Motor Driver Board pin AI1 = left motor direction control
+	- RPi4 pin GPIO06 <-> Motor Driver Board pin AI2 = left motor direction control
+	```
+	(AI1, AI2: 10=>forward,
+	           01=>backward,
+	           00=>stop,
+	           11=>short break)
+	```
+	- RPi4 pin GPIO22 <-> Motor Driver Board pin BI1 = right motor direction control
+	- RPi4 pin GPIO23 <-> Motor Driver Board pin BI2 = right motor direction control
+	```
+	(BI1, BI2: 10=>forward,
+	           01=>backward,
+	           00=>stop,
+	           11=>short break)
+	```
+	- RPi4 pin GND, Ground <-> Motor Driver Board pin GND, all three pins ,RPi4 pin 3.3V,
+	- Logic level: DC Power <-> Motor Driver Board pin VCC RPi4 pin 5V,
+	                      DC Power <-> Motor Driver Board pin VM, motor power
+- The remaining pins of the motor driver board needs to be connected as follows: AO1 and AO2 pins to the left motor, BO1 and BO2 pins to the right motor, STBY pin to 3.3V VCC.
+	- Motor Driver Board pin AO1 <-> Left motor upper pin = left motor plus (+) terminal
+	- Motor Driver Board pin AO2 <-> Left motor lower pin = left motor minus (-) terminal
+	- Motor Driver Board pin BO1 <-> Right motor upper pin = right motor minus (-) terminal
+	- Motor Driver Board pin BO2 <-> Right motor lower pin = right motor plus (+) terminal
+	- Motor Driver Board pin STBY <-> Motor Driver Board pin VCC = RPi4 pin 3.3V
+
+![](https://i.imgur.com/hwIWWjE.png)
+
+![](https://i.imgur.com/0qcfejn.png)
 
 ### oneM2M Communication
 The signal/message communication involves 6 components. The communication between components is shown in the figure below.
