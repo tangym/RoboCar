@@ -98,7 +98,7 @@
             $('#lTrigger').on("click", function () { send_control('a') });
             $('#rTrigger').on("click", function () { send_control('d') });
             $('#sTrigger').on("click", function () { send_control('s') });
-            $('#eTrigger').on("click", function () { send_control($('#command').value); });
+            $('#eTrigger').on("click", function () { send_control(document.getElementById('command').value); });
 
             document.onkeypress = function (event) {
                 if (event.target.nodeName == "INPUT") {
