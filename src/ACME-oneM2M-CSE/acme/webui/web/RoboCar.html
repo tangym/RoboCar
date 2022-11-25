@@ -32,6 +32,15 @@
                 style="font-size:24px; color:red"></i></button>
         <br> <br>
 
+        <div class="commandExecution">
+            <label for="command">Execute shell command:</label>
+            <input type="text" id="command" />
+            <button style="font-size:24px" id="eTrigger"><i class="fa fa-play"
+                style="font-size:24px; color:black"></i></button>
+        </div>
+        <textarea id="result" readonly style="background-color: #f0f0f0;"  rows="20" cols="80"></textarea>
+
+
         <div class="trafficLight">
             <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Traffic_Light_-_Realistic.jpg"
                 style="width:128px;height:200px;vertical-align:middle">
@@ -66,16 +75,36 @@
                     }),
                     success: function (result) { console.log(result) },
                     error: function (error) { console.log(error) }
-                })
+                });
+                $.ajax({
+                    url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/shellOutput/la',
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-M2M-Origin': 'CAdmin',
+                        'X-M2M-RI': 'ghkgpiog67utuv',
+                        'X-M2M-RVI': '3'
+                    },
+                    success: function (result) {
+                        $('#result').val(result['m2m:cin']['con']);
+                    },
+                    error: function (error) { console.log(error) }
+                });
+                $('#command').val('');
             }
             $('#fTrigger').on("click", function () { send_control('w') });
             $('#bTrigger').on("click", function () { send_control('x') });
             $('#lTrigger').on("click", function () { send_control('a') });
             $('#rTrigger').on("click", function () { send_control('d') });
             $('#sTrigger').on("click", function () { send_control('s') });
+            $('#eTrigger').on("click", function () { send_control($('#command').value); });
 
             document.onkeypress = function (event) {
-                if (event.key === 'a') {
+                if (event.target.nodeName == "INPUT") {
+                    return;
+                } else if (event.key === 'a') {
+                    console.log("a clicked.")
                     $('#lTrigger').click();
                 } else if (event.key === 's') {
                     $('#sTrigger').click();
