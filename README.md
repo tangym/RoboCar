@@ -131,7 +131,20 @@ In the second part, the signal sending uses the post request with JavaScript. By
 For the get the detected signal, the get request in JavaScript is applied. The webpage will constantly get the data for acme server once a second, and write the results next to the related picture. Another line of code with function was added to refresh the webpage automatically and get the updated results shown on the webpage.
 
 ### Live Video Streaming
-[To be post...]
+#### Video streaming server company selection
+The project initially used Amazon's EC2 virtual computer resource. However, due to the higher costs of network traffic and the nature of the video application, the option was modified during the project to minimize the cost of the project. The new service was provided by the OVH, a french server company, which provides unlimited network traffic for 5$ per month as the service provides all required resources, the project completely moved to the OVH.
+
+#### VLC video stream viewing vs web page video stream viewing
+Once raspberry pi acquires the video image from the USB webcam and uses python's CV2 module to capture the video and convert the data to the frame object. Once CV2 converts the video traffic to the frame object, the subprocess is created and uses FFMPEG to convert the video data into the RTMP traffic. The RTMP traffic is than hosted into the RTMP server which is located in the US and relay the video signal to RTMP and Web video format by NGINX webserver's RTMP module.
+
+#### Video streaming delay/lag/latency reduction
+The delay comes from the 3 main parts as follows. "Video acquisition", "Video transmission from the raspberry pi", "RTMP Server" and "RTMP client" or "Web client".
+
+Once the raspberry pi acquires imagery data from the webcam, the CV2  module and FFMPEG module need to pre/pro-process the primitive video data which requires a significant amount of time to de/encode the input and output video data.
+Once the video is processed, the raspberry pi sends video data to the RTMP server. The RTMP server uses a computer network and needs connection time between the raspberry pi module and the server. The transmission needs a significant amount of time to successfully present video data in the RTMP server.
+The RTMP server needs to process and post the video to spread the video data to the RTMP users. Currently, due to the limitation of the virtual computing resource, there's more than 2sec of delay has been observed.
+Lastly, the network connection time between the server and the client creates a significant amount of time due to its physical distance.
+
 
 ### Road Status Recognition
 For the RoboCar, we applied Computer Vision by using Jetson Nano to detect the traffic light and the stop sign. There were two ways we tried to implement to Jetson Nano. One way is to use Yolo V5 and the other way is the traditional way with OpenCV. We tried both of the methods and they both had their own drawbacks. And we chose the best performance on the Jetson Nano for this completion.
