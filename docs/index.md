@@ -1,7 +1,4 @@
 [![RoboCar](img/Front-matter-image.png)](https://tangym.github.io/RoboCar)
-
-# RoboCar: 5G Cellular Remote Driving Robot Car
-
 ## Introduction
 In this project, we are going to build a remote-driving intelligent robot car using single-board computers combined with IoT oneM2M techniques. 
 The car can be controlled by a remote driver through the WiFi or 5G network and sends the camera view as well as the AI-recognized road status information back to the remote user.
