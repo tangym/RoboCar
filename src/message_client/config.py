@@ -15,6 +15,6 @@ logFile = "RoboCar.log" # "/home/pi/RoboCar.log"
 if debug:
     retrieveDelay = 3
 else:
-    retrieveDelay = 1
+    retrieveDelay = 0.25
 trafficLightPin = 10
 stopSignPin = 11
