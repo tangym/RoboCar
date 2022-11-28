@@ -7,6 +7,7 @@ controllerContainer = "control"
 heartbeatContainer = "RoboCarClientHeartBeat"
 trafficLightContainer = "trafficLight"
 stopSignContainer = "stopSign"
+shellOutputContainer = "shellOutput"
 originator = "CAdmin" # "RoboCar" # "CAdmin" #
 releaseVersionIndicator = "3"
 aeBaseName = "/cse-in/CAdmin"

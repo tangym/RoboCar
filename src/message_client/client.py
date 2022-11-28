@@ -6,6 +6,7 @@ import http.client
 import json
 import logging
 import socket
+import subprocess
 
 from gpiozero import LED, PWMLED, Button
 from gpiozero.pins.pigpio import PiGPIOFactory
@@ -159,6 +160,7 @@ class RoboCar:
         self.containers['controller'] = Container(self.client, config.aeBaseName, config.controllerContainer)
         self.containers['traffic_light'] = Container(self.client, config.aeBaseName, config.trafficLightContainer)
         self.containers['stop_sign'] = Container(self.client, config.aeBaseName, config.stopSignContainer)
+        self.containers['shell_output'] = Container(self.client, config.aeBaseName, config.shellOutputContainer)
 
         self.status = "ok"
         self.latest_control_message_id = None
@@ -193,6 +195,18 @@ class RoboCar:
         response = self.containers['stop_sign'].post(status)
         logging.info(f"Received stop sign response: {response['code']} - {response['body']}")
         return response
+    
+    def execute(self, command):
+        if command in list("adwxsij"):
+            print(command)
+            output = f"{command} executed."      # TODO: for car movement, change to subprocess and redirect stdin/stdout
+        else:  # assume receiving a bash command
+            logging.info(f"Executing command: {command}")
+            output = os.popen(command).read()
+        logging.info(f"Posting execution output: {output}")
+        response = self.containers['shell_output'].post(output)
+        logging.info(f"Received response: {response['code']} - {response['body']}")
+        return response
 
 
 def main():
@@ -220,11 +234,12 @@ def main():
         car.send_heartbeat()
         controller = car.get_controller()
         if controller:
-            print(controller)
             if controller == "q":
                 car.status = "shutdown"
                 car.send_heartbeat()
                 break
+            else:  # assume receiving a bash command
+                car.execute(controller)
         sys.stdout.flush()
         car.send_traffic_light(str(not traffic_light.is_pressed))
         car.send_stop_sign(str(not stop_sign.is_pressed))
