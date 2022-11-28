@@ -99,10 +99,12 @@ Initially the Jetson Nano with a camera will detect traffic lights and STOP sign
 
 There are several steps for data transmission from PC to RoboCar. As shown on the right of the figure above, the user enters instructions to the webpage on the PC first, AWS receives the signal, and it will send the RoboCar control signal to Raspberry Pi. After Raspberry Pi receives the RoboCar control signal, it then sends the signal to RoboCar. Finally, the RoboCar will move based on user input instructions.
 
-In order to control the RoboCar remotely from the PC, a user should be able to see the situation around the RoboCar. Therefore, the camera on RoboCar captures the environment in front of RoboCar and streams the video back to PC. Due to the reason that the oneM2M standard may not support media transmission, an independent way for video transmission will be used, the transmission methods have not been decided yet.
+![](https://i.imgur.com/WlRF34D.png)
+
+In order to control the RoboCar remotely from the PC, a user should be able to see the situation around the RoboCar. Therefore, the camera on RoboCar captures the environment in front of RoboCar and streams the video back to PC. Due to the reason that the oneM2M standard may not support media transmission, an independent way for video transmission will be used.
 
 
-![](https://i.imgur.com/07ISkbc.png)
+![](https://i.imgur.com/80aYTHq.png)
 
 We run a ACME Common Service Entity (CSE) server on AWS infrastructure. The resource tree design is shown in the figure. An AE (RoboCar) is registered the CSE base, and contains mainly three containers: controller, trafficLight and stopSIgn.
 The controller container stores the control commands (`A-W-D-X-S`) sent from the controller WebUI (see next section). 
