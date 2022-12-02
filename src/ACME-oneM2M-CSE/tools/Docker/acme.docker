@@ -120,4 +120,4 @@ batteryChargedLevel=100
 interval=60
 
 [cse.registration]
-allowedAEOriginators=RoboCar
+allowedAEOriginators=RoboCar,CAdmin

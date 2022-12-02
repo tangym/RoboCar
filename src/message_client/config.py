@@ -8,7 +8,7 @@ heartbeatContainer = "RoboCarClientHeartBeat"
 trafficLightContainer = "trafficLight"
 stopSignContainer = "stopSign"
 shellOutputContainer = "shellOutput"
-originator = "CAdmin" # "RoboCar" # "CAdmin" #
+originator = "CAdmin" # "RoboCar" 
 releaseVersionIndicator = "3"
 aeBaseName = "/cse-in/CAdmin"
 logFile = "RoboCar.log" # "/home/pi/RoboCar.log"
@@ -18,3 +18,4 @@ else:
     retrieveDelay = 0.25
 trafficLightPin = 10
 stopSignPin = 11
+motorControlProgram = "/home/pi/RoboCar/src/car_movement/hw0a1blikey2"  # or "python dummy_movement.py"

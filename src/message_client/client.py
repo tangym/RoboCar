@@ -1,3 +1,4 @@
+import io
 import os
 import sys
 import time
@@ -6,6 +7,9 @@ import http.client
 from datetime import datetime
 import logging
 import subprocess
+import threading
+from queue import Queue, Empty
+import shlex
 
 if "raspberry" in os.uname().version:
     from gpiozero import LED, PWMLED, Button
@@ -39,6 +43,7 @@ class RoboCar:
         self.status = "ok"
         self.latest_control_message_id = None
         self.get_controller()
+        self.motor_process = InteractiveProcess(config.motorControlProgram)
 
     def send_heartbeat(self):
         logging.info(f"Sending heartbeat message: {self.status}")
@@ -72,15 +77,50 @@ class RoboCar:
     
     def execute(self, command):
         if command in list("adwxsij"):
-            print(command)
-            output = f"{command} executed."      # TODO: for car movement, change to subprocess and redirect stdin/stdout
-        else:  # assume receiving a bash command
+            self.motor_process.write_stdin(command + "\n")
+            output = self.motor_process.read_stdout()
+        else:
             logging.info(f"Executing command: {command}")
-            output = os.popen(command).read()
+            process = InteractiveProcess(command)
+            output = process.read_stdout()
         logging.info(f"Posting execution output: {output}")
         response = self.containers['shell_output'].post(output)
         logging.info(f"Received response: {response['code']} - {response['body']}")
         return response
+
+
+class InteractiveProcess:
+    def __init__(self, command, read_stdout_timeout=0.1):
+        if type(command) is str:
+            command = shlex.split(command)
+        self.process = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding="utf-8")
+        self.stdout = Queue()
+        self.read_stdout_timeout = read_stdout_timeout
+        writer = threading.Thread(target=self._poll_stdout)
+        writer.daemon = True
+        writer.start()
+
+    def _poll_stdout(self):
+        for line in iter(self.process.stdout.readline, ''):
+            self.stdout.put(line)
+        self.process.stdout.close()
+
+    def read_stdout(self):
+        output = []
+        while True:
+            try:
+                line = self.stdout.get(timeout=self.read_stdout_timeout)
+                output.append(line)
+            except Empty:
+                break
+        return "".join(output)
+
+    def write_stdin(self, command):
+        self.process.stdin.write(command)
+        self.process.stdin.flush()
+
+    def poll(self):
+        return self.process.poll()
 
 
 def main():
@@ -121,6 +161,7 @@ def main():
             car.send_traffic_light(str(not traffic_light.is_pressed))
             car.send_stop_sign(str(not stop_sign.is_pressed))
         time.sleep(config.retrieveDelay)
+
 
 if __name__ == "__main__":
     main()
