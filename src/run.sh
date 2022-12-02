@@ -11,4 +11,4 @@ then
 fi
 
 # Run RoboCar
-python3 /home/pi/RoboCar/src/message_client/client.py | sudo /home/pi/RoboCar/src/car_movement/hw0a1blikey2
+python3 /home/pi/RoboCar/src/message_client/client.py
