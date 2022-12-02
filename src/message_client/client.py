@@ -1,12 +1,15 @@
 import os
 import sys
 import time
+import socket
+import http.client
 from datetime import datetime
 import logging
 import subprocess
 
-from gpiozero import LED, PWMLED, Button
-from gpiozero.pins.pigpio import PiGPIOFactory
+if "raspberry" in os.uname().version:
+    from gpiozero import LED, PWMLED, Button
+    from gpiozero.pins.pigpio import PiGPIOFactory
 
 import config
 from oneM2M import HTTPClient, oneM2MClient, Container
@@ -96,11 +99,13 @@ def main():
             network_connected = True
             logging.info(f"RoboCar is able to reach the CSE server: {config.cseBaseName}")
 
-    factory = PiGPIOFactory(host="localhost")
+    if "raspberry" in os.uname().version:
+        factory = PiGPIOFactory(host="localhost")
 
     car = RoboCar()
-    traffic_light = Button(config.trafficLightPin)
-    stop_sign = Button(config.stopSignPin)
+    if "raspberry" in os.uname().version:
+        traffic_light = Button(config.trafficLightPin)
+        stop_sign = Button(config.stopSignPin)
     while True:
         car.send_heartbeat()
         controller = car.get_controller()
@@ -112,8 +117,9 @@ def main():
             else:  # assume receiving a bash command
                 car.execute(controller)
         sys.stdout.flush()
-        car.send_traffic_light(str(not traffic_light.is_pressed))
-        car.send_stop_sign(str(not stop_sign.is_pressed))
+        if "raspberry" in os.uname().version:
+            car.send_traffic_light(str(not traffic_light.is_pressed))
+            car.send_stop_sign(str(not stop_sign.is_pressed))
         time.sleep(config.retrieveDelay)
 
 if __name__ == "__main__":
