@@ -74,22 +74,7 @@
                         }
                     }),
                     success: function (result) { 
-                        console.log(result);                    
-                        $.ajax({
-                            url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/shellOutput/la',
-                            method: 'GET',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json',
-                                'X-M2M-Origin': 'CAdmin',
-                                'X-M2M-RI': 'ghkgpiog67utuv',
-                                'X-M2M-RVI': '3'
-                            },
-                            success: function (result) {
-                                $('#result').val(result['m2m:cin']['con']);
-                            },
-                            error: function (error) { console.log(error) }
-                        });
+                        console.log(result);
                         $('#command').val('');
                     },
                     error: function (error) { console.log(error) }
@@ -119,7 +104,22 @@
                 }
             };
 
-            function update_status() {
+            function update_status() {                    
+                $.ajax({
+                    url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/shellOutput/la',
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-M2M-Origin': 'CAdmin',
+                        'X-M2M-RI': 'ghkgpiog67utuv',
+                        'X-M2M-RVI': '3'
+                    },
+                    success: function (result) {
+                        $('#result').val(result['m2m:cin']['con']);
+                    },
+                    error: function (error) { console.log(error) }
+                });
                 $.ajax({
                     url: 'https://acme-onem2m-cse-ix62mzt6pa-uc.a.run.app/cse-in/CAdmin/trafficLight/la',
                     method: 'GET',
